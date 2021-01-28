@@ -1,0 +1,58 @@
+buildscript {
+    dependencies {
+        classpath files(mkdir('build/classes/java/main'))
+    }
+}
+
+plugins {
+    id 'org.roboscratch.robot' version '0.1.3'
+}
+
+apply plugin: 'java-library'
+apply plugin: 'jacoco'
+apply plugin: 'application'
+
+sourceCompatibility = 1.8
+version = '1.0'
+
+mainClassName = 'edu.jsu.mcis.cs310.tictactoe.TicTacToe'
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Tic Tac Toe', 
+                   'Implementation-Version': archiveVersion, 
+                   'Main-Class': 'edu.jsu.mcis.cs310.tictactoe.TicTacToe'
+    }
+}
+
+javadoc {
+    source = sourceSets.main.allJava
+    classpath = configurations.compile
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.13'
+}
+
+jacocoTestReport {
+    group = 'Reporting'
+    description = 'Generate Jacoco coverage reports after running tests.'
+    additionalSourceDirs(files(sourceSets.main.allJava.srcDirs))
+}
+
+test {
+    systemProperties 'property': 'value'
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs += ['-proc:none', '-Xlint:unchecked', '-Xlint:deprecation']
+}
+
+runrobot.data_sources = 'src/test/acceptancetest'
+runrobot.outputdir = 'build/reports/robot'
+runrobot.debugfile = 'debug.log'
+runrobot.dependsOn build
