@@ -7,7 +7,7 @@ import java.util.*;
 * TicTacToeModel implements the Model for the Tic-Tac-Toe game.
 *
 * @author  Stephanie Thompson
-* @version 1.0
+* @version 2.0
 */
 public class TicTacToeModel {
     
